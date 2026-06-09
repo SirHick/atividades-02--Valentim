@@ -1,0 +1,268 @@
+-- Mostrar todos os clientes
+SELECT * FROM Clientes;
+
+-- Mostrar apenas nome e telefone dos clientes
+SELECT nome, telefone FROM Clientes;
+
+-- Mostrar todos os produtos
+SELECT * FROM Produtos;
+
+-- Mostrar apenas nome e preço dos produtos
+SELECT nome, preco FROM Produtos;
+
+-- Mostrar todos os funcionários
+SELECT * FROM Funcionarios;
+
+-- Mostrar nome e cargo dos funcionários
+SELECT nome, cargo FROM Funcionarios;
+
+-- Mostrar todas as vendas
+SELECT * FROM Vendas;
+
+-- Mostrar apenas data e total das compras
+SELECT data, total FROM Compras;
+
+-- Mostrar descrição e preço dos produtos
+SELECT descricao, preco FROM Produtos;
+
+-- Mostrar todas as filiais
+SELECT * FROM Filiais;
+
+-- Mostrar apenas nome do produto e quantidade em estoque
+SELECT nome, quantidade_estoque FROM Produtos;
+
+=====================================================================
+
+-- Mostrar clientes com mais de 100 pontos
+SELECT * FROM Clientes WHERE pontos_fidelidade > 100;
+
+-- Mostrar produtos com preço maior que 50
+SELECT * FROM Produtos WHERE preco > 50;
+
+-- Mostrar funcionários com salário acima de 3000
+SELECT * FROM Funcionarios WHERE salario > 3000.00;
+
+-- Mostrar produtos com estoque menor que 10
+SELECT * FROM Produtos WHERE quantidade_estoque < 10;
+
+-- Mostrar compras realizadas em uma data específica
+SELECT * FROM Compras WHERE data = '2025-01-10';
+
+-- Mostrar clientes que possuem telefone cadastrado
+SELECT * FROM Clientes WHERE telefone IS NOT NULL;
+
+-- Mostrar funcionários do cargo “Caixa”
+SELECT * FROM Funcionarios WHERE cargo = 'Caixa';
+
+-- Mostrar produtos da filial 1
+SELECT * FROM Produtos WHERE id_filial = 1;
+
+-- Mostrar vendas com total acima de 500
+SELECT * FROM Vendas WHERE total > 500.00;
+
+-- Mostrar fornecedores com nome específico
+SELECT * FROM Fornecedores WHERE nome = 'Distribuidora Alfa';
+
+==============================================================================
+
+-- Mostrar produtos ordenados pelo nome
+SELECT * FROM Produtos ORDER BY nome ASC;
+
+-- Mostrar produtos do mais caro para o mais barato
+SELECT * FROM Produtos ORDER BY preco DESC;
+
+-- Mostrar clientes ordenados pelos pontos de fidelidade
+SELECT * FROM Clientes ORDER BY pontos_fidelidade ASC;
+
+-- Mostrar funcionários ordenados pelo salário
+SELECT * FROM Funcionarios ORDER BY salario DESC;
+
+-- Mostrar vendas ordenadas pela data
+SELECT * FROM Vendas ORDER BY data DESC;
+
+-- Mostrar compras ordenadas pelo total
+SELECT * FROM Compras ORDER BY total DESC;
+
+-- Mostrar produtos ordenados por estoque
+SELECT * FROM Produtos ORDER BY quantidade_estoque ASC;
+
+-- Mostrar fornecedores em ordem alfabética
+SELECT * FROM Fornecedores ORDER BY nome ASC;
+
+-- Mostrar filiais ordenadas pelo endereço
+SELECT * FROM Filiais ORDER BY endereco ASC;
+
+-- Mostrar funcionários ordenados por cargo e nome
+SELECT * FROM Funcionarios ORDER BY cargo ASC, nome ASC;
+
+-- Mostrar produtos ordenados por categoria e preço
+SELECT * FROM Produtos ORDER BY id_categoria ASC, preco DESC;
+
+
+================================================================
+
+
+-- Contar quantos produtos existem em cada categoria
+SELECT id_categoria, COUNT(*) AS quantidade_produtos FROM Produtos GROUP BY id_categoria;
+
+-- Somar o total de vendas por filial
+SELECT id_filial, SUM(total) AS soma_vendas FROM Vendas GROUP BY id_filial;
+
+-- Contar quantos funcionários existem em cada filial
+SELECT id_filial, COUNT(*) AS quantidade_funcionarios FROM Funcionarios GROUP BY id_filial;
+
+-- Mostrar o total de compras por fornecedor
+SELECT id_fornecedor, SUM(total) AS soma_compras FROM Compras GROUP BY id_fornecedor;
+
+-- Mostrar a média salarial por cargo
+SELECT cargo, AVG(salario) AS media_salarial FROM Funcionarios GROUP BY cargo;
+
+-- Mostrar quantidade de vendas realizadas por funcionário
+SELECT id_funcionario, COUNT(*) AS quantidade_vendas FROM Vendas GROUP BY id_funcionario;
+
+-- Mostrar quantidade de produtos por fornecedor
+SELECT id_fornecedor, COUNT(*) AS quantidade_produtos FROM Produtos GROUP BY id_fornecedor;
+
+-- Mostrar soma dos pontos de fidelidade dos clientes agrupados por endereço
+SELECT endereco, SUM(pontos_fidelidade) AS soma_pontos FROM Clientes GROUP BY endereco;
+
+-- Mostrar quantidade de compras realizadas por filial
+SELECT id_filial, COUNT(*) AS quantidade_compras FROM Compras GROUP BY id_filial;
+
+-- Mostrar o estoque total de produtos por categoria
+SELECT id_categoria, SUM(quantidade_estoque) AS estoque_total FROM Produtos GROUP BY id_categoria;
+
+-- Mostrar o maior salário de cada cargo
+SELECT cargo, MAX(salario) AS maior_salario FROM Funcionarios GROUP BY cargo;
+
+==============================================================================
+
+-- Mostrar categorias com mais de 5 produtos
+SELECT id_categoria, COUNT(*) AS quantidade_produtos FROM Produtos GROUP BY id_categoria HAVING COUNT(*) > 5;
+
+-- Mostrar filiais com total de vendas acima de 10000
+SELECT id_filial, SUM(total) AS soma_vendas FROM Vendas GROUP BY id_filial HAVING SUM(total) > 10000;
+
+-- Mostrar cargos com média salarial acima de 3000
+SELECT cargo, AVG(salario) AS media_salarial FROM Funcionarios GROUP BY cargo HAVING AVG(salario) > 3000;
+
+-- Mostrar fornecedores com mais de 10 produtos
+SELECT id_fornecedor, COUNT(*) AS quantidade_produtos_fornecidos FROM Produtos GROUP BY id_fornecedor HAVING COUNT(*) > 10;
+
+-- Mostrar funcionários que realizaram mais de 20 vendas
+SELECT id_funcionario, COUNT(*) AS quantidade_vendas FROM Vendas GROUP BY id_funcionario HAVING COUNT(*) > 20;
+
+-- Mostrar filiais com mais de 3 funcionários
+SELECT id_filial, COUNT(*) AS quantidade_funcionarios FROM Funcionarios GROUP BY id_filial HAVING COUNT(*) > 3;
+
+-- Mostrar categorias com estoque total acima de 500
+SELECT id_categoria, SUM(quantidade_estoque) AS soma_estoque FROM Produtos GROUP BY id_categoria HAVING SUM(quantidade_estoque) > 500;
+
+-- Mostrar fornecedores cujo total de compras seja maior que 5000
+SELECT id_fornecedor, SUM(total) AS soma_compras FROM Compras GROUP BY id_fornecedor HAVING SUM(total) > 5000;
+
+-- Mostrar datas com mais de 10 vendas
+SELECT data, COUNT(*) AS quantidade_vendas FROM Vendas GROUP BY data HAVING COUNT(*) > 10;
+
+-- Mostrar clientes com mais de 200 pontos de fidelidade (agrupando por endereço)
+SELECT endereco, SUM(pontos_fidelidade) AS soma_pontos FROM Clientes GROUP BY endereco HAVING SUM(pontos_fidelidade) > 200;
+
+-- Mostrar cargos cujo maior salário seja superior a 7000
+SELECT cargo, MAX(salario) AS maior_salario FROM Funcionarios GROUP BY cargo HAVING MAX(salario) > 7000;
+
+======================================================================================================
+
+--  Mostrar produtos e suas categorias
+SELECT p.nome AS nome_produto, c.nome AS nome_categoria 
+FROM Produtos p 
+JOIN Categorias c ON p.id_categoria = c.id_categoria;
+
+--  Mostrar produtos e seus fornecedores
+SELECT p.nome AS nome_produto, f.nome AS nome_fornecedor 
+FROM Produtos p 
+JOIN Fornecedores f ON p.id_fornecedor = f.id_fornecedor;
+
+--  Mostrar funcionários e suas filiais
+SELECT func.nome AS nome_funcionario, fil.nome AS nome_filial 
+FROM Funcionarios func 
+JOIN Filiais fil ON func.id_filial = fil.id_filial;
+
+--  Mostrar vendas e nomes dos clientes
+SELECT v.id_venda, v.data, c.nome AS nome_cliente 
+FROM Vendas v 
+JOIN Clientes c ON v.id_cliente = c.id_cliente;
+
+--  Mostrar compras e fornecedores
+SELECT c.id_compra, c.data, f.nome AS nome_fornecedor 
+FROM Compras c 
+JOIN Fornecedores f ON c.id_fornecedor = f.id_fornecedor;
+
+--  Mostrar itens das vendas com nomes dos produtos
+SELECT iv.id_venda, p.nome AS nome_produto, iv.quantidade, iv.subtotal 
+FROM ItensVenda iv 
+JOIN Produtos p ON iv.id_produto = p.id_produto;
+
+--  Mostrar produtos e suas filiais
+SELECT p.nome AS nome_produto, f.nome AS nome_filial 
+FROM Produtos p 
+JOIN Filiais f ON p.id_filial = f.id_filial;
+
+--  Mostrar vendas e funcionários responsáveis
+SELECT v.id_venda, f.nome AS nome_funcionario 
+FROM Vendas v 
+JOIN Funcionarios f ON v.id_funcionario = f.id_funcionario;
+
+--  Mostrar compras e filiais
+SELECT c.id_compra, f.nome AS nome_filial, c.total 
+FROM Compras c 
+JOIN Filiais f ON c.id_filial = f.id_filial;
+
+--  Mostrar clientes e suas vendas
+SELECT c.nome AS nome_cliente, v.id_venda, v.total 
+FROM Clientes c 
+JOIN Vendas v ON c.id_cliente = v.id_cliente;
+
+-- Mostrar detalhes completos das vendas
+SELECT v.id_venda, c.nome AS cliente, f.nome AS funcionario, fil.nome AS filial, v.total 
+FROM Vendas v 
+JOIN Clientes c ON v.id_cliente = c.id_cliente 
+JOIN Funcionarios f ON v.id_funcionario = f.id_funcionario 
+JOIN Filiais fil ON v.id_filial = fil.id_filial;
+
+==========================================================================================
+
+
+ALTER TABLE Clientes RENAME TO ClientesVIP;
+ALTER TABLE Produtos ADD marca VARCHAR(50);
+ALTER TABLE Produtos DROP COLUMN marca;
+ALTER TABLE Clientes MODIFY telefone VARCHAR(20);
+ALTER TABLE Funcionarios RENAME COLUMN cargo TO funcao;
+
+
+ALTER TABLE Produtos MODIFY nome VARCHAR(200);
+ALTER TABLE Clientes MODIFY nome VARCHAR(100) NOT NULL;
+ALTER TABLE Clientes MODIFY endereco VARCHAR(200) NULL;
+ALTER TABLE Clientes MODIFY pontos_fidelidade INT DEFAULT 0;
+ALTER TABLE Vendas MODIFY id_venda BIGINT;
+
+
+ALTER TABLE Fornecedores ADD PRIMARY KEY(id_fornecedor);
+ALTER TABLE Fornecedores DROP PRIMARY KEY;
+ALTER TABLE ItensVenda ADD PRIMARY KEY(id_venda, id_produto);
+ALTER TABLE Clientes DROP PRIMARY KEY;
+ALTER TABLE Clientes ADD PRIMARY KEY(id_cliente);
+ALTER TABLE Produtos MODIFY id_produto INT AUTO_INCREMENT;
+
+
+ALTER TABLE Produtos ADD CONSTRAINT fk_categoria FOREIGN KEY(id_categoria) REFERENCES Categorias(id_categoria);
+ALTER TABLE Produtos DROP FOREIGN KEY fk_categoria;
+ALTER TABLE Vendas ADD CONSTRAINT fk_cliente FOREIGN KEY(id_cliente) REFERENCES Clientes(id_cliente);
+ALTER TABLE ItensVenda ADD CONSTRAINT fk_venda FOREIGN KEY(id_venda) REFERENCES Vendas(id_venda) ON DELETE CASCADE;
+ALTER TABLE Produtos ADD CONSTRAINT fk_fornecedor FOREIGN KEY(id_fornecedor) REFERENCES Fornecedores(id_fornecedor) ON UPDATE CASCADE;
+
+
+ALTER TABLE Clientes ADD CONSTRAINT unique_email UNIQUE(email);
+ALTER TABLE Clientes DROP INDEX unique_email;
+ALTER TABLE Produtos ADD CONSTRAINT chk_preco CHECK(preco >= 0);
+ALTER TABLE Clientes ALTER pontos_fidelidade SET DEFAULT 0;
+ALTER TABLE Funcionarios MODIFY salario DECIMAL(10,2) NOT NULL;
