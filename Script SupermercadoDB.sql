@@ -143,15 +143,16 @@ INSERT INTO Compras
 (data, total, id_fornecedor, id_filial)
 VALUES
 ('2023-10-01', 900.00, 1, 1),
-('2023-10-05', 500.00, 2, 1),
-('2023-10-10', 200.00, 3, 2);
+('2023-10-05', 799.00, 2, 1),
+('2023-10-10', 320.00, 3, 2);
 
 INSERT INTO ItensCompra
 (id_compra, id_produto, quantidade, subtotal)
 VALUES
 (1, 1, 200, 900.00),
-(2, 2, 100, 500.00),
+(2, 2, 100, 799.00),
 (3, 3, 100, 320.00);
+
 
 INSERT INTO Vendas
 (data, total, id_cliente, id_funcionario, id_filial)
