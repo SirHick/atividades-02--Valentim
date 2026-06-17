@@ -1,0 +1,80 @@
+create database atividade12;
+
+use atividade12;
+
+create user 'henrique'@'localhost' identified by 'tigor';
+
+create user 'rafael'@'localhost' identified by 'sushi';
+
+drop user 'rafael'@'localhost';
+
+# 1. Conceda todos os privilégios para o usuário criado com o seu nome.
+grant all privileges on *.* to 'henrique'@'localhost';
+
+# 2. Crie uma nova base de dados contendo duas tabelas com pelo menos três colunas cada.
+create database dinossauro;
+
+use dinossauro;
+
+
+CREATE TABLE especies (
+    id_especie INT PRIMARY KEY AUTO_INCREMENT,
+    nome_cientifico VARCHAR(100) NOT NULL,
+    periodo_geologico VARCHAR(50),
+    dieta ENUM('Carnívoro', 'Herbívoro', 'Onívoro')
+);
+
+CREATE TABLE fosseis (
+    id_fossil INT PRIMARY KEY AUTO_INCREMENT,
+    id_especie INT,
+    local_descoberta VARCHAR(100)
+);
+
+# 3. Crie um novo usuário chamado **programador**.
+create user 'programador'@'localhost' identified by 'python';
+
+# 4. Conceda ao usuário **programador** apenas os privilégios de manipulação de dados (**SELECT**, **INSERT** e **UPDATE**) em apenas uma das tabelas criadas.
+grant SELECT, INSERT, UPDATE ON dinossauro.* TO 'programador'@'localhost';
+
+# 5. Teste as permissões utilizando uma nova conexão e verifique quais operações são permitidas e quais são bloqueadas pelo servidor MySQL.
+
+/*use dinossauro; 12.2.1
+
+UPDATE especies
+SET dieta = 'Onívoro'
+WHERE nome_cientifico = 'Tyrannosaurus rex';
+
+SET SQL_SAFE_UPDATES = 0;
+
+select * from especies;
+
+insert into especies (nome_cientifico, periodo_geologico, dieta) 
+values ('Quetzalcoatlus', 'Cretáceo', 'Carnívoro');
+*/
+
+flush privileges;
+
+#Revoke 12.2.2
+
+REVOKE UPDATE
+ON *.*
+FROM 'programador'@'localhost';
+
+########
+
+#Roles 12.2.3
+
+CREATE ROLE'app_desenvolvedor';
+
+GRANT ALL ON atividade12.* TO 'app_desenvolvedor';
+
+CREATE USER'usuario_desenvolvedor'@'localhost';
+
+GRANT'app_desenvolvedor'
+TO'usuario_desenvolvedor'@'localhost';	
+
+FLUSH PRIVILEGES;
+
+create role 'app_desativado';
+
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'usuario_desenvolvedor'@'localhost';
