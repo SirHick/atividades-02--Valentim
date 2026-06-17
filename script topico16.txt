@@ -1,0 +1,147 @@
+/* ATIVIDADE  VIEW 01
+
+CREATE DATABASE IndustriaViews;
+USE IndustriaViews;
+
+CREATE TABLE funcionarios (
+    idFuncionario INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(200),
+    cargo VARCHAR(100),
+    setor VARCHAR(100),
+    data_admissao DATE,
+    salario DECIMAL(10,2),
+    telefone VARCHAR(20),
+    email VARCHAR(200),
+    turno VARCHAR(50),
+    cidade VARCHAR(100),
+    estado VARCHAR(2),
+    status_funcionario VARCHAR(20)
+);
+
+INSERT INTO funcionarios (
+    nome, cargo, setor, data_admissao, salario,
+    telefone, email, turno, cidade, estado, status_funcionario
+)VALUES
+(
+'Carlos Silva','Operador de Produção','Usinagem',
+'2020-03-15',3200.00,
+'(51)99999-1111','carlos@industria.com',
+'Manhã','Porto Alegre','RS','Ativo'
+),
+(
+'Mariana Souza','Inspetora de Qualidade','Qualidade',
+'2019-08-20',4100.00,
+'(51)99999-2222','mariana@industria.com',
+'Tarde','Canoas','RS','Ativo'
+),
+(
+'João Pereira','Soldador','Soldagem',
+'2021-01-10',3500.00,
+'(51)99999-3333','joao@industria.com',
+'Manhã','Gravataí','RS','Ativo'
+),
+(
+'Fernanda Lima','Engenheira de Produção','Produção',
+'2018-06-12',7800.00,
+'(51)99999-4444','fernanda@industria.com',
+'Integral','Porto Alegre','RS','Ativo'
+),
+(
+'Rafael Martins','Técnico de Manutenção','Manutenção',
+'2022-02-05',4200.00,
+'(51)99999-5555','rafael@industria.com',
+'Noite','São Leopoldo','RS','Ativo'
+);
+
+CREATE VIEW view_funcionarios AS
+SELECT * FROM funcionarios;
+
+SELECT*FROM view_funcionarios;
+
+CREATE VIEW view_funcionarios_resumo AS
+SELECT nome, setor, cargo
+FROM funcionarios;
+
+SELECT * FROM view_funcionarios_resumo;
+
+SELECT nome
+FROM view_funcionarios_resumo;
+
+# 7. Liste todos os funcionários pertencentes a um setor específico informado pelo professor.
+select * from view_funcionarios_resumo
+where setor = 'Usinagem';
+
+# 8. Liste todos os funcionários cujo cargo contenha uma palavra-chave definida pelo professor.
+select nome, cargo from view_funcionarios_resumo
+where cargo like '%Produção%';	
+*/
+
+#Atividade views 02
+
+CREATE DATABASE IndustriaMonitoramento;
+USE IndustriaMonitoramento;
+
+CREATE TABLE setor (
+    id_setor INT NOT NULL AUTO_INCREMENT,
+    nome_setor VARCHAR(100),
+    localizacao VARCHAR(100),
+	PRIMARY KEY (id_setor)
+);
+
+CREATE TABLE equipamento (
+    id_equipamento INT NOT NULL AUTO_INCREMENT,
+    nome_equipamento VARCHAR(100),
+    fabricante VARCHAR(100),
+    data_instalacao DATE,
+    id_setor_equi INT,
+PRIMARY KEY (id_equipamento),
+FOREIGN KEY (id_setor_equi) REFERENCES setor (id_setor)
+);
+
+-- drop table equipamento;
+
+-- 1. Popula os setores
+INSERT INTO setor (nome_setor, localizacao)
+VALUES
+('Usinagem','Bloco A'),
+('Soldagem','Bloco B'),
+('Montagem','Bloco C');
+
+-- 2. Popula os equipamentos
+INSERT INTO equipamento (nome_equipamento, fabricante, data_instalacao, id_setor_equi)
+VALUES 
+('Torno CNC','Siemens','2021-03-10', 1),
+('Robô de Solda','ABB','2020-08-15', 2),
+('Esteira Automatizada','WEG','2022-01-20', 3);
+
+SELECT*FROM equipamento;
+
+SELECT*FROM setor;
+
+-- 3. Executa a busca com o JOIN correto
+SELECT
+    E.nome_equipamento AS Equipamento,
+    E.fabricante AS Fabricante,
+    S.nome_setor AS Setor
+FROM equipamento AS E
+INNER JOIN setor AS S
+ON E.id_setor_equi = S.id_setor;
+
+CREATE VIEW view_equipamentos_setor2 AS
+
+SELECT
+    E.nome_equipamento AS Equipamento,
+    E.fabricante AS Fabricante,
+    S.nome_setor AS Setor
+FROM equipamento AS E
+INNER JOIN setor AS S
+ON E.id_setor_equi= S.id_setor;
+
+SELECT*FROM view_equipamentos_setor2;
+
+
+ALTER VIEW view_funcionarios_resumo AS
+SELECT nome, cargo, setor
+FROM funcionarios;
+
+DROP VIEW view_funcionarios_resumo;
